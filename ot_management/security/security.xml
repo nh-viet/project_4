@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record model="ir.module.category" id="module_category_ot_management">
+        <field name="name">OT Management</field>
+        <field name="description">Test project</field>
+        <field name="sequence">16</field>
+    </record>
+
+    <record model="res.groups" id="group_employee_department_lead">
+        <field name="name">Department Lead</field>
+        <field name="category_id" ref="module_category_ot_management"/>
+<!--        <field name="implied_ids" eval="[(4, ref('group_employee_employee'))]"/>-->
+    </record>
+
+    <record model="res.groups" id="group_employee_project_manager">
+        <field name="name">Project Manager</field>
+        <field name="category_id" ref="module_category_ot_management"/>
+<!--        <field name="implied_ids" eval="[(4, ref('group_employee_employee'))]"/>-->
+    </record>
+
+    <record model="res.groups" id="group_employee_employee">
+        <field name="name">Employee</field>
+        <field name="category_id" ref="module_category_ot_management"/>
+    </record>
+
+    <record model="res.groups" id="group_button_ot">
+        <field name="name">Button</field>
+        <field name="category_id" ref="module_category_ot_management"/>
+    </record>
+
+    <record model="ir.rule" id="see_they_own_record">
+        <field name="name">See they own record only</field>
+        <field name="model_id" ref="model_res_ot"/>
+        <field name="domain_force">[('user_id','=',user.id)]</field>
+        <field name="groups" eval="[(4, ref('group_employee_employee'))]"/>
+        <field name = "perm_read" eval = "1" />
+        <field name = "perm_write" eval = "1" />
+        <field name = "perm_create" eval = "1" />
+        <field name = "perm_unlink" eval = "1" />
+    </record>
+
+    <record model="ir.rule" id="see_project_record">
+        <field name="name">See project record</field>
+        <field name="model_id" ref="model_res_ot"/>
+        <field name="domain_force">[
+            '|',
+            ('user_id','=',user.id),
+            '&amp;',
+            ('project_id.user_id','=',user.id),
+            ('state','!=','draft')]</field>
+        <field name="groups" eval="[(4, ref('group_employee_project_manager'))]"/>
+        <field name = "perm_read" eval = "1" />
+        <field name = "perm_write" eval = "1" />
+        <field name = "perm_create" eval = "1" />
+        <field name = "perm_unlink" eval = "0" />
+    </record>
+
+    <record model="ir.rule" id="see_department_record">
+        <field name="name">See department record</field>
+        <field name="model_id" ref="model_res_ot"/>
+        <field name="domain_force">[
+            '|',
+            ('user_id','=',user.id),
+            '&amp;',
+            ('department_lead_id.user_id','=',user.id),
+            ('state','!=','draft')]</field>
+        <field name="groups" eval="[(4, ref('group_employee_department_lead'))]"/>
+        <field name = "perm_read" eval = "1" />
+        <field name = "perm_write" eval = "1" />
+        <field name = "perm_create" eval = "1" />
+        <field name = "perm_unlink" eval = "1" />
+    </record>
+
+<!--    <record model="ir.rule" id="see_form_button">-->
+<!--        <field name="name">See Form Button</field>-->
+<!--        <field name="model_id" ref="model_res_ot"/>-->
+<!--        <field name="domain_force">[('employee_id.user_id','=',user.id)]</field>-->
+<!--        <field name="groups" eval="[(4, ref('group_button_ot'))]"/>-->
+<!--    </record>-->
+</odoo>

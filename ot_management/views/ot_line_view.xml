@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="ot_line_menu_action" model="ir.actions.act_window">
+            <field name="name">OT Line</field>
+            <field name="res_model">res.ot.line</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+        </record>
+
+        <record id="ot_line_tree_view" model="ir.ui.view">
+            <field name="name">OT Line Tree</field>
+            <field name="model">res.ot.line</field>
+            <field name="arch" type="xml">
+                <tree string="ALL OT LINE">
+                      <field name="ot_from"/>
+                      <field name="ot_to"/>
+                      <field name="ot_category"/>
+                      <field name="wfh"/>
+                      <field name="ot_hours"/>
+                      <field name="job_taken"/>
+                      <field name="late_approved"/>
+                      <field name="hr_notes"/>
+                      <field name="attendance_notes"/>
+                      <field name="warning"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="ot_line_form_view" model="ir.ui.view">
+            <field name="name">OT Line Registration Form</field>
+            <field name="model">res.ot.line</field>
+            <field name="arch" type="xml">
+              <form string="ALL OT LINE Registration">
+                  <sheet>
+                      <group>
+                          <group>
+                              <field name="ot_from"/>
+                              <field name="ot_to"/>
+                          </group>
+                          <group>
+                              <field name="ot_category"/>
+                              <field name="wfh"/>
+                              <field name="job_taken"/>
+                          </group>
+                      </group>
+                  </sheet>
+                </form>
+            </field>
+        </record>
+
+        <menuitem id="ot_menu" name="OT" />
+        <menuitem id="employee_ot_menu" name="OT menu" parent="ot_menu"/>
+        <menuitem id="employee_ot_line_menu" name="OT Line menu" parent="ot_menu" action="ot_line_menu_action"/>
+    </data>
+</odoo>

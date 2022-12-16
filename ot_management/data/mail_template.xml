@@ -1,0 +1,80 @@
+<?xml version="1.0" ?>
+<odoo>
+
+    <data>
+        <record id="create_ot_line_email_template" model="mail.template">
+            <field name="name">OT line created</field>
+            <field name="model_id" ref="ot_management.model_res_ot"/>
+            <field name="subject">OT line created</field>
+            <field name="email_from">${object.user_id.email_formatted |safe}</field>
+            <field name="email_to">${object.project_id.user_id.email_formatted |safe}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="'margin: 0px; padding: 0px; font-size: 15px;">
+                        Bản ghi OT đã được tạo, đang chờ PM duyệt
+                    </p>
+                </div>
+            </field>
+        </record>
+
+        <record id="pm_approved_email_template" model="mail.template">
+            <field name="name">PM approved</field>
+            <field name="model_id" ref="ot_management.model_res_ot"/>
+            <field name="subject">PM approved</field>
+            <field name="email_from">${object.project_id.user_id.email_formatted |safe}</field>
+            <field name="email_to">${object.department_lead_id.user_id.email_formatted |safe}, ${object.employee_id.user_id.email_formatted |safe}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="'margin: 0px; padding: 0px; font-size: 15px;">
+                        PM đã duyệt, chờ DL duyệt bản ghi
+                    </p>
+                </div>
+            </field>
+        </record>
+
+        <record id="dl_approved_email_template" model="mail.template">
+            <field name="name">Dl approved</field>
+            <field name="model_id" ref="ot_management.model_res_ot"/>
+            <field name="subject">DL approved</field>
+            <field name="email_from">${object.department_lead_id.user_id.email_formatted |safe}</field>
+            <field name="email_to">${object.employee_id.user_id.email_formatted |safe}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="'margin: 0px; padding: 0px; font-size: 15px;">
+                        ${object.get_some_text()}
+                    </p>
+                </div>
+            </field>
+        </record>
+
+        <record id="pm_rejected_ot_email_template" model="mail.template">
+            <field name="name">OT Rejected</field>
+            <field name="model_id" ref="ot_management.model_res_ot"/>
+            <field name="subject">PM rejected</field>
+            <field name="email_from">${object.project_id.user_id.email_formatted |safe}</field>
+            <field name="email_to">${object.employee_id.user_id.email_formatted |safe}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="'margin: 0px; padding: 0px; font-size: 15px;">
+                        ${object.get_some_text()}
+                    </p>
+                </div>
+            </field>
+        </record>
+
+        <record id="dl_rejected_ot_email_template" model="mail.template">
+            <field name="name">OT Rejected</field>
+            <field name="model_id" ref="ot_management.model_res_ot"/>
+            <field name="subject">DL rejected</field>
+            <field name="email_from">${object.department_lead_id.user_id.email_formatted |safe}</field>
+            <field name="email_to">${object.employee_id.user_id.email_formatted |safe}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="'margin: 0px; padding: 0px; font-size: 15px;">
+                        ${object.get_some_text()}
+                    </p>
+                </div>
+            </field>
+        </record>
+    </data>
+</odoo>

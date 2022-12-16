@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_config_settings_valid_ot_time_tree" model="ir.ui.view">
+        <field name="name">OT Config Valid Time Tree</field>
+        <field name="model">ot.valid.time.config</field>
+        <field name="arch" type="xml">
+            <tree editable="top">
+                <field name="category" required="True"/>
+                <field name="from_hour" widget="float_time"/>
+                <field name="to_hour" widget="float_time"/>
+            </tree>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="ot_registration_mess_form_view" model="ir.ui.view">
+        <field name="name">ot.registration.message.form</field>
+        <field name="model">ot.registration.message</field>
+        <field name="arch" type="xml">
+            <form string="OT Registration ">
+                <div>
+                    <field name="message" readonly="1" nolabel="1" widget="html"/>
+                </div>
+                <div>
+                    <h2 class="text-danger">
+                        <field name="message_to" nolabel="1" readonly="1"/>
+                    </h2>
+                </div>
+                <footer>
+                    <button string="Confirm" name="do_submit_ot" type="object" default_focus="1"
+                            class="btn-primary"/> or
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="ot_registration_refuse_form_view" model="ir.ui.view">
+        <field name="name">ot.registration.refuse.form</field>
+        <field name="model">ot.registration.message</field>
+        <field name="arch" type="xml">
+            <form string="Refuse OT Line Form">
+                <div>
+                    <h1>Bạn đang thực hiện từ chối OT request của nhân viên.</h1>
+                    <h3>Lý do: </h3>
+                    <field name="notes" required="1" />
+                </div>
+                <footer>
+                    <button string="Refuse OT" name="hr_refuse_request" type="object" default_focus="1"
+                            class="btn-primary"/> or
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="wizard_ot_registration_mess_action" model="ir.actions.act_window">
+        <field name="name">Confirmation</field>
+        <field name="res_model">ot.registration.message</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="ot_registration_mess_form_view"/>
+        <field name="target">new</field>
+    </record>
+
+    <record id="wizard_ot_registration_refuse_action" model="ir.actions.act_window">
+        <field name="name">Refuse OT Request</field>
+        <field name="res_model">ot.registration.message</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="ot_registration_refuse_form_view"/>
+        <field name="target">new</field>
+    </record>
+</odoo>

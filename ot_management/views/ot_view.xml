@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="ot_menu_action" model="ir.actions.act_window">
+            <field name="name">ot.registration</field>
+            <field name="res_model">res.ot</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+        </record>
+
+        <record id="ot_tree_view" model="ir.ui.view">
+            <field name="name">ot.registration.tree</field>
+            <field name="model">res.ot</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="employee_id" string="Employee"/>
+                    <field name="project_id" string="Project"/>
+                    <field name="department_id" string="Department"/>
+                    <field name="state"/>
+                    <field name="line_total_ot"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="ot_form_view_form" model="ir.ui.view">
+            <field name="name">ot.registration.form</field>
+            <field name="model">res.ot</field>
+            <field name="arch" type="xml">
+                <form string="ALL OT Registration">
+                    <header>
+                        <button string="Submit" type="object" name="button_done"
+                                states="draft" confirm="Bạn đã chắc chắn gửi bản ghi này chưa"/>
+                        <button string="PM Approve" type="object" states="to_approve"
+                                name="pm_approve_button" confirm="Bạn đã chắc chắn duyệt bản ghi OT này chưa"
+                                groups="ot_management.group_employee_project_manager"/>
+                        <button string="DL Approve" type="object" states="pm_approved"
+                                name="dl_approve_button" confirm="Bạn đã chắc chắn duyệt bản ghi OT này chưa"
+                                groups="ot_management.group_employee_department_lead"/>
+                        <button string="Refuse" type="object" name="pm_refuse_button"
+                                states="to_approve" confirm="Bạn có chắc muốn từ chối bản ghi OT này không"
+                                style="background-color:#057BBA; color:white"
+                                groups="ot_management.group_employee_project_manager"/>
+                        <button string="Refuse" type="object" name="dl_refuse_button"
+                                states="pm_approved" confirm="Bạn có chắc muốn từ chối bản ghi OT này không"
+                                style="background-color:#057BBA; color:white"
+                                groups="ot_management.group_employee_department_lead"/>
+                        <button string="Set To Draft" type="object" name="set_to_draft_button"
+                                states="pm_refused,dl_refused" groups="ot_management.group_button_ot"/>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="draft,to_approve,pm_approved,dl_approved,dl_refused"/>
+                        <field name="hide_edit_button" invisible="1"/>
+                        <field name="hide_delete_button" invisible="1" />
+                    </header>
+                    <group>
+                        <group>
+                            <field name="project_id"/>
+                            <field name="approver"/>
+                            <field name="line_ot_month"/>
+                        </group>
+                        <group>
+                            <field name="employee_id"/>
+                            <field name="department_lead_id"/>
+                            <field name="create_date"/>
+                            <field name="line_total_ot"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="OT Request Line" name="ot_request_line">
+                            <field name="res_ot_line_ids" >
+                                <tree editable="bottom">
+                                    <field name="ot_from"/>
+                                    <field name="ot_to"/>
+                                    <field name="ot_category"/>
+                                    <field name="wfh"/>
+                                    <field name="ot_hours"/>
+                                    <field name="job_taken"/>
+                                    <field name="state"/>
+                                    <field name="late_approved"/>
+                                    <field name="hr_notes"/>
+                                    <field name="attendance_notes"/>
+                                    <field name="warning"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </form>
+<!--                <div class="oe_chatter">-->
+<!--                    <field name="message_follower_ids" widget="mail_followers"/>-->
+<!--                    <field name="message_ids" widget="mail_thread"/>-->
+<!--                </div>-->
+            </field>
+        </record>
+
+        <record id="view_employee_name_search" model="ir.ui.view">
+            <field name="name">employee.ot.search</field>
+            <field name="model">res.ot</field>
+            <field name="arch" type="xml">
+                <search string="Employees">
+                    <filter string="State" name="state" domain="[('state','=','dl_approved')]"/>
+                    <filter string="Employee Project" name="employee_project" context="{'group_by':'project_id'}"/>
+                    <filter string="Employee Name" name="employee_name" context="{'group_by':'employee_id'}"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_ot" model="ir.actions.act_window">
+            <field name="name">OT</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.ot</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_employee_name': 1}</field>
+        </record>
+
+        <menuitem id="ot_menu" name="OT" />
+        <menuitem id="employee_ot_menu" name="OT menu" parent="ot_menu" action="action_ot"/>
+        <menuitem id="employee_ot_line_menu" name="OT Line menu" parent="ot_menu" />
+    </data>
+</odoo>
